@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8376649354562521201
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3681770092496850490}
+  - component: {fileID: 7055587030341603465}
+  m_Layer: 6
+  m_Name: PlanetaryUpgrades
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3681770092496850490
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8376649354562521201}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7055587030341603465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8376649354562521201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c217f09e62e3a58428a54472f027b236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passiveIncome: 1
+  currentFunds: 0
+  upgrades:
+  - {fileID: 5023722596144753052, guid: 797950f288b04b743a61750db0732683, type: 3}
+  - {fileID: 1193940069113812235, guid: e736c8f9c640c3249b29d6c70c59197f, type: 3}
+  - {fileID: 8255220590810693100, guid: 55eac891715ec7240ae2fbbc76d4683a, type: 3}
+  - {fileID: 4850606517413769049, guid: 6107b5f57a2ad7744b995d1787b0a027, type: 3}
+  - {fileID: 6657049703372243921, guid: 0f384dd236c84f04198ccb440a1c10b8, type: 3}
+  - {fileID: 4601679808499101174, guid: 81d7fc2aec9cb694ebdd467868b308a4, type: 3}
+  - {fileID: 6182045925990261506, guid: e354f8cb77ae5f74fba450122b370d42, type: 3}
+  - {fileID: 5942698490064830814, guid: aa5a0616db07844419a2a0a6dcf51964, type: 3}
+  - {fileID: 1492834671672277270, guid: 3efa4fca73b4fe942b0dd1a5447d487d, type: 3}
+  - {fileID: 6375970526517942770, guid: dea7431aedff20d489099c636e9e6f7d, type: 3}
+  isGrading: 0
+  gradecost: 100
