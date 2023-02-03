@@ -8,7 +8,6 @@ public class PlanetHitpoints : HitPointComponent
 {
     short originalHp;
     UiController uiController;
-    ScoreControll scoreControll;
     [Inject]
     void Construct(UiController _uicontroller, ScoreControll _scoreControll)
     {

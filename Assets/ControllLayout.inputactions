@@ -1,0 +1,74 @@
+{
+    "name": "ControllLayout",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "aae8a66d-3d91-44fe-908a-744414640a12",
+            "actions": [
+                {
+                    "name": "Speeedup",
+                    "type": "Button",
+                    "id": "631d7b83-92d6-4573-8966-76c27e2a3f12",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "slowdown",
+                    "type": "Button",
+                    "id": "1749e517-0275-4d23-99b5-92c6dd7664c9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "shoot",
+                    "type": "Button",
+                    "id": "ba47de6d-a4e7-44e9-afc6-299ddb1241dd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e9b4c7ea-961e-4535-bea6-935e3c76fa55",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Speeedup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f4fe8181-7ad0-4a7d-8911-b5693b22b7c8",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "slowdown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "624af6cc-9888-4ec2-ad15-dab913e8a818",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

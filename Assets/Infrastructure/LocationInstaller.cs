@@ -12,6 +12,7 @@ namespace Infrastructure
 
         public override void InstallBindings()
         {
+            BindShipcontrollAndShiphHp();
             BindLocInstaller();
             BindUiGameObject();
             BindSfxController();
@@ -21,7 +22,7 @@ namespace Infrastructure
 
             BindPlanetaryUpgrades();
             BindScoreControll();
-            BindShipcontrollAndShiphHp();
+            
             BindPlanetaryHitPoints();
             BindEnemySpawner();
            
@@ -32,15 +33,16 @@ namespace Infrastructure
         }    
         private void BindScoreControll()
         {
-            ScoreControll scoreControll = Container.InstantiatePrefabForComponent<ScoreControll>(scoreControllPrefab, StartPoint.position, Quaternion.identity, controllerParent);
+            ScoreControll scoreControll = Instantiate(scoreControllPrefab, StartPoint.position, Quaternion.identity, controllerParent).GetComponent<ScoreControll>();
             Container
                 .Bind<ScoreControll>()
                 .FromInstance(scoreControll)
                 .AsSingle();
+            Container.QueueForInject(scoreControll);
         }
         private void BindShipcontrollAndShiphHp()
         {
-            Shipcontroll shipcontroll = Container.InstantiatePrefabForComponent<Shipcontroll>(ShipPrefab, StartPoint.position, Quaternion.identity, null);
+            Shipcontroll shipcontroll = Instantiate(ShipPrefab, StartPoint.position, Quaternion.identity, null).GetComponent<Shipcontroll>();
             Container
                 .Bind<Shipcontroll>()
                 .FromInstance(shipcontroll)
@@ -49,27 +51,31 @@ namespace Infrastructure
                 .Bind<PlayerBehavoiur>()
                 .FromInstance(shipcontroll.gameObject.GetComponent<PlayerBehavoiur>())
                 .AsSingle();
+            Container.QueueForInject(shipcontroll);
+            Container.QueueForInject(shipcontroll.gameObject.GetComponent<PlayerBehavoiur>());
         }
         private void BindUiController()
         {
-            UiController uiController = Container.InstantiatePrefabForComponent<UiController>(uiControllerPrefab, StartPoint.position, Quaternion.identity, controllerParent);
+            UiController uiController = Instantiate(uiControllerPrefab, StartPoint.position, Quaternion.identity, controllerParent).GetComponent<UiController>(); ;
             Container
                 .Bind<UiController>()
                 .FromInstance(uiController)
                 .AsSingle();
+            Container.QueueForInject(uiController);
         }
         private void BindSfxController()
         {
-            SfxController sfxController = Container.InstantiatePrefabForComponent<SfxController>(sfxControllerPrefab, StartPoint.position, Quaternion.identity, controllerParent);
+            SfxController sfxController = Instantiate(sfxControllerPrefab, StartPoint.position, Quaternion.identity, controllerParent).GetComponent<SfxController>();
             Container
                 .Bind<SfxController>()
                 .FromInstance(sfxController)
                 .AsSingle();
             sfxController.source = sfxSource;
+            Container.QueueForInject(sfxController);
         }
         private void BindUiGameObject ()
         {
-            UiDependenciesContainer uiHolder = Container.InstantiatePrefabForComponent<UiDependenciesContainer>(canvasPrefab, StartPoint.position, Quaternion.identity, null);
+            UiDependenciesContainer uiHolder = Instantiate(canvasPrefab, StartPoint.position, Quaternion.identity, null).GetComponent<UiDependenciesContainer>();
             Container
                 .Bind<UiDependenciesContainer>()
                 .FromInstance(uiHolder)
@@ -82,31 +88,35 @@ namespace Infrastructure
                 .Bind<Camera>()
                 .FromInstance(camera)
                 .AsSingle();
+            Container.QueueForInject(camera);
         }
         void BindEnemySpawner()
         {
-            EnemySpawner enemySpawner = Container.InstantiatePrefabForComponent<EnemySpawner>(enemyspawnerPrefab, new Vector3(0f, 0f, -1f), Quaternion.identity, controllerParent);
+            EnemySpawner enemySpawner = Instantiate(enemyspawnerPrefab, new Vector3(0f, 0f, -1f), Quaternion.identity, controllerParent).GetComponent<EnemySpawner>();
             Container
                 .Bind<EnemySpawner>()
                 .FromInstance(enemySpawner)
                 .AsSingle();
             enemySpawner.spawnpoints = enemySpawnPoints;
+            Container.QueueForInject(enemySpawner);
         }
         void BindPlanetaryHitPoints()
         {
-            PlanetHitpoints planetHitpoints = Container.InstantiatePrefabForComponent<PlanetHitpoints>(planetprefab, new Vector3(0f, 0f, -0f), Quaternion.identity, null);
+            PlanetHitpoints planetHitpoints =Instantiate(planetprefab, new Vector3(0f, 0f, -0f), Quaternion.identity, null).GetComponent<PlanetHitpoints>();
             Container
                 .Bind<PlanetHitpoints>()
                 .FromInstance(planetHitpoints)
                 .AsSingle();
+            Container.QueueForInject(planetHitpoints);
         }
         void BindPlanetaryUpgrades()
         {
-            PlanetaryUpgrades planetaryUpgrades = Container.InstantiatePrefabForComponent<PlanetaryUpgrades>(planetaryupgradesPrefab, new Vector3(0f, 0f, -0f), Quaternion.identity, controllerParent);
+            PlanetaryUpgrades planetaryUpgrades = Instantiate(planetaryupgradesPrefab, new Vector3(0f, 0f, -0f), Quaternion.identity, controllerParent).GetComponent<PlanetaryUpgrades>(); ;
             Container
                 .Bind<PlanetaryUpgrades>()
                 .FromInstance(planetaryUpgrades)
                 .AsSingle();
+            Container.QueueForInject(planetaryUpgrades);
         }
         public GameObject EnemyFactory(GameObject prefab, Transform spawnPos)
         {

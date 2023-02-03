@@ -25,7 +25,7 @@ public class HitPointComponent : MonoBehaviour
     protected bool sendDamageInfo;
     [SerializeField]
     protected bool spawnParticles, isNotCounted;
-    ScoreControll scoreControll;
+    protected ScoreControll scoreControll;
     SfxController sfx;
 
     [Inject]

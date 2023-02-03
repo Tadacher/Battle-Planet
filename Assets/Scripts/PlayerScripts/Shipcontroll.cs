@@ -9,7 +9,8 @@ public class Shipcontroll : MonoBehaviour
 {
     [SerializeField]
     float speed = 20, shootInterval, currentShootInterval, crushRotaionSpeed;
-    
+    [SerializeField]
+    ControllLayout controlllayout;
     //original* variables are being used to add percented values from upgrades and to draw stat (readonly)
     //or just to remember original stat values
     public float originalSpeed {get; private set;}
@@ -129,7 +130,7 @@ public class Shipcontroll : MonoBehaviour
     }
     void Start()
     {
-       
+        ControllSetup();
         crush = Crush();
         respawnCount = RespawnCount();
         respawn = Respawn(); 
@@ -148,24 +149,20 @@ public class Shipcontroll : MonoBehaviour
     {
         turnFactor += speed * Time.deltaTime;
         CalculatePosition();
-
-        if (currentShootInterval >= 0)
-        {
-            currentShootInterval -= Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.A) && speed <= maxSpeedMod) speed += Time.deltaTime * thrustSpeed;
-        else if (Input.GetKey(KeyCode.D) && speed >= minSpeedMod) speed -= Time.deltaTime * thrustSpeed;
-
-        if (Input.GetMouseButton(1) && currentShootInterval <= 0 && !isCrushing)
-        {
-            Shoot(projectileInfos[0]);
-            currentShootInterval = shootInterval;
-        }
+        if (currentShootInterval >= 0) currentShootInterval -= Time.deltaTime;
     }
     private void FixedUpdate()
     {
         if (!isCrushing) RotateToMouse();
+    }
+
+    void ControllSetup()
+    {
+        controlllayout = new ControllLayout();
+        controlllayout.Enable();
+        controlllayout.Player.shoot.performed += context => Shoot(projectileInfos[0]);
+        controlllayout.Player.slowdown.performed += Context => Slowdown();
+        controlllayout.Player.Speeedup.performed += Context => SpeedUp();
     }
     public void UpdateShootInterval()
     {
@@ -187,12 +184,24 @@ public class Shipcontroll : MonoBehaviour
     }
     void Shoot(ProjectileInfo projectileInfo)
     {
-        GameObject bullet = Instantiate(projectileInfo.projectilePrefab, projectileSpawner.position, projectileSpawner.rotation, null);      
-        bullet.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up*10,ForceMode2D.Impulse);
-        sfx.PlayPlayerShotSound(projectileInfo.shotSoundId);
-        
-        Projectile projScript = bullet.GetComponent<Projectile>();
-        projScript.damage = projectileInfo.damage;
+        if (currentShootInterval <= 0 && !isCrushing)
+        {
+            GameObject bullet = Instantiate(projectileInfo.projectilePrefab, projectileSpawner.position, projectileSpawner.rotation, null);
+            bullet.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 10, ForceMode2D.Impulse);
+            sfx.PlayPlayerShotSound(projectileInfo.shotSoundId);
+
+            Projectile projScript = bullet.GetComponent<Projectile>();
+            projScript.damage = projectileInfo.damage;
+            currentShootInterval = shootInterval;
+        }
+    }
+    void SpeedUp()
+    {
+        speed += Time.deltaTime * thrustSpeed;
+    }
+    void Slowdown()
+    {
+        speed -= Time.deltaTime * thrustSpeed;
     }
 
     void CalculatePosition()

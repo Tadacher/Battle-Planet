@@ -19,9 +19,6 @@ public class Missile : Projectile
         lifetime -= Time.deltaTime;
         if (lifetime <= 0) Destroy(gameObject);
     }
-
-    
-
     void SetTarget()
     {
         targetSetter.target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
