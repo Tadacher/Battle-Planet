@@ -26,10 +26,10 @@ public class HitPointComponent : MonoBehaviour
     [SerializeField]
     protected bool spawnParticles, isNotCounted;
     protected ScoreControll scoreControll;
-    SfxController sfx;
+    SoundEffectsService sfx;
 
     [Inject]
-    void Construct(SfxController _sfx, ScoreControll _scoreControll)
+    void Construct(SoundEffectsService _sfx, ScoreControll _scoreControll)
     {
         sfx = _sfx;
         scoreControll = _scoreControll;

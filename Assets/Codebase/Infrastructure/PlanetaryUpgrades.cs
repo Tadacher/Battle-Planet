@@ -16,12 +16,12 @@ public class PlanetaryUpgrades : MonoBehaviour
 
     //to inject
     UiController uiController;
-    SfxController sfx;
+    SoundEffectsService sfx;
     LocationInstaller locationInstaller;
     GameObject menuContent;
     //
     [Inject]
-    void Construct(UiController uiContr, SfxController _sfx, UiDependenciesContainer uiDependenciesContainer, LocationInstaller _locationInstaller)
+    void Construct(UiController uiContr, SoundEffectsService _sfx, UiDependenciesContainer uiDependenciesContainer, LocationInstaller _locationInstaller)
     {
         uiController = uiContr;
         sfx = _sfx;
@@ -48,7 +48,7 @@ public class PlanetaryUpgrades : MonoBehaviour
     /// </summary>
     public void ConstructUpgrade(int index)
     {
-        GameObject upgradeBase = locationInstaller.UpgradeFactory(upgrades[index], menuContent.transform);
+        GameObject upgradeBase = locationInstaller.CreateUpgrade(upgrades[index], menuContent.transform);
     }
 
     public void ConstructRandomUpgrade()

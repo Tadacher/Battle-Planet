@@ -90,7 +90,7 @@ public class EnemySpawner : MonoBehaviour
             if (wave.spawnedEnemies < wave.count)
             {
                 wave.spawnedEnemies++;
-                GameObject enemyGo = locationInstaller.EnemyFactory(enemy[wave.type], currentSpawnPos);
+                GameObject enemyGo = locationInstaller.CreateEnemy(enemy[wave.type], currentSpawnPos);
 
                 enemyGo.GetComponent<EnemyBehaviour>().player = shipcontroll.gameObject.transform;
 
@@ -153,7 +153,7 @@ public class EnemySpawner : MonoBehaviour
             coroutineIsOn = true;
             SetTillWaveTimer(); 
         }
-        if (Input.GetKeyDown(KeyCode.F)) locationInstaller.EnemyFactory(enemy[2], currentSpawnPos);
+        if (Input.GetKeyDown(KeyCode.F)) locationInstaller.CreateEnemy(enemy[2], currentSpawnPos);
     }
     Wave GenerateWave()
     {

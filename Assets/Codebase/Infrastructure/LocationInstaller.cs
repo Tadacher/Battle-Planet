@@ -5,10 +5,18 @@ namespace Infrastructure
     public class LocationInstaller : MonoInstaller
     {
         public Transform StartPoint, controllerParent;
-        public GameObject ShipPrefab, uiControllerPrefab, sfxControllerPrefab, canvasPrefab, cameraPrefab, enemyspawnerPrefab, planetprefab, planetaryupgradesPrefab, scoreControllPrefab;
+        [SerializeField] GameObject 
+            ShipPrefab, 
+            uiControllerPrefab, 
+            sfxControllerPrefab, 
+            canvasPrefab, 
+            cameraPrefab, 
+            enemyspawnerPrefab, 
+            planetprefab, 
+            planetaryupgradesPrefab, 
+            scoreControllPrefab;
         public Transform[] enemySpawnPoints;
-        [SerializeField]
-        AudioSource sfxSource;
+        [SerializeField] AudioSource sfxSource;
 
         public override void InstallBindings()
         {
@@ -33,7 +41,7 @@ namespace Infrastructure
         }    
         private void BindScoreControll()
         {
-            ScoreControll scoreControll = Instantiate(scoreControllPrefab, StartPoint.position, Quaternion.identity, controllerParent).GetComponent<ScoreControll>();
+            ScoreControll scoreControll = InstantiateMonobehaviourService<ScoreControll>(scoreControllPrefab);
             Container
                 .Bind<ScoreControll>()
                 .FromInstance(scoreControll)
@@ -42,7 +50,7 @@ namespace Infrastructure
         }
         private void BindShipcontrollAndShiphHp()
         {
-            Shipcontroll shipcontroll = Instantiate(ShipPrefab, StartPoint.position, Quaternion.identity, null).GetComponent<Shipcontroll>();
+            Shipcontroll shipcontroll = InstantiateMonobehaviourService<Shipcontroll>(ShipPrefab);
             Container
                 .Bind<Shipcontroll>()
                 .FromInstance(shipcontroll)
@@ -56,7 +64,7 @@ namespace Infrastructure
         }
         private void BindUiController()
         {
-            UiController uiController = Instantiate(uiControllerPrefab, StartPoint.position, Quaternion.identity, controllerParent).GetComponent<UiController>(); ;
+            UiController uiController = InstantiateMonobehaviourService<UiController>(uiControllerPrefab);
             Container
                 .Bind<UiController>()
                 .FromInstance(uiController)
@@ -65,17 +73,17 @@ namespace Infrastructure
         }
         private void BindSfxController()
         {
-            SfxController sfxController = Instantiate(sfxControllerPrefab, StartPoint.position, Quaternion.identity, controllerParent).GetComponent<SfxController>();
+            SfxService sfxController = InstantiateMonobehaviourService<SfxService>(sfxControllerPrefab);
             Container
-                .Bind<SfxController>()
+                .Bind<SfxService>()
                 .FromInstance(sfxController)
                 .AsSingle();
-            sfxController.source = sfxSource;
+           // sfxController._source = sfxSource;
             Container.QueueForInject(sfxController);
         }
         private void BindUiGameObject ()
         {
-            UiDependenciesContainer uiHolder = Instantiate(canvasPrefab, StartPoint.position, Quaternion.identity, null).GetComponent<UiDependenciesContainer>();
+            UiDependenciesContainer uiHolder = InstantiateMonobehaviourService<UiDependenciesContainer>(canvasPrefab);
             Container
                 .Bind<UiDependenciesContainer>()
                 .FromInstance(uiHolder)
@@ -92,7 +100,7 @@ namespace Infrastructure
         }
         void BindEnemySpawner()
         {
-            EnemySpawner enemySpawner = Instantiate(enemyspawnerPrefab, new Vector3(0f, 0f, -1f), Quaternion.identity, controllerParent).GetComponent<EnemySpawner>();
+            EnemySpawner enemySpawner = InstantiateMonobehaviourService<EnemySpawner>(enemyspawnerPrefab);
             Container
                 .Bind<EnemySpawner>()
                 .FromInstance(enemySpawner)
@@ -102,7 +110,7 @@ namespace Infrastructure
         }
         void BindPlanetaryHitPoints()
         {
-            PlanetHitpoints planetHitpoints =Instantiate(planetprefab, new Vector3(0f, 0f, -0f), Quaternion.identity, null).GetComponent<PlanetHitpoints>();
+            PlanetHitpoints planetHitpoints = InstantiateMonobehaviourService<PlanetHitpoints>(planetprefab);
             Container
                 .Bind<PlanetHitpoints>()
                 .FromInstance(planetHitpoints)
@@ -111,21 +119,24 @@ namespace Infrastructure
         }
         void BindPlanetaryUpgrades()
         {
-            PlanetaryUpgrades planetaryUpgrades = Instantiate(planetaryupgradesPrefab, new Vector3(0f, 0f, -0f), Quaternion.identity, controllerParent).GetComponent<PlanetaryUpgrades>(); ;
+            PlanetaryUpgrades planetaryUpgrades = InstantiateMonobehaviourService<PlanetaryUpgrades>(planetaryupgradesPrefab);
             Container
                 .Bind<PlanetaryUpgrades>()
                 .FromInstance(planetaryUpgrades)
                 .AsSingle();
             Container.QueueForInject(planetaryUpgrades);
         }
-        public GameObject EnemyFactory(GameObject prefab, Transform spawnPos)
+        public GameObject CreateEnemy(GameObject prefab, Transform spawnPos)
         {
             return Container.InstantiatePrefab(prefab, spawnPos.position, spawnPos.rotation, null);
         }
-        public GameObject UpgradeFactory(GameObject prefab, Transform spawnPos)
+        public GameObject CreateUpgrade(GameObject prefab, Transform spawnPos)
         {
             return Container.InstantiatePrefab(prefab, spawnPos);
         }
+
+        Tcomponent InstantiateMonobehaviourService<Tcomponent>(GameObject prefab) where Tcomponent : MonoBehaviour => 
+            Instantiate(prefab, new Vector3(0f, 0f, -0f), Quaternion.identity, controllerParent).GetComponent<Tcomponent>();
 
     }
 }

@@ -8,7 +8,7 @@ using Infrastructure;
 public class MissileCruiser : EnemyBehaviour
 {
     AIDestinationSetter targetSetter;
-    SfxController sfx;
+    SoundEffectsService sfx;
     LocationInstaller locationInstaller;
     [SerializeField]
     bool isChangingPosition;
@@ -23,7 +23,7 @@ public class MissileCruiser : EnemyBehaviour
     float curTimeTofire;
 
     [Inject]
-    void Construct(SfxController _sfx, LocationInstaller loc)
+    void Construct(SoundEffectsService _sfx, LocationInstaller loc)
     {
         sfx = _sfx;
         locationInstaller = loc;
@@ -55,7 +55,7 @@ public class MissileCruiser : EnemyBehaviour
 
     protected override void Fire()
     {
-        GameObject missile = locationInstaller.EnemyFactory(projectile, spawner);
+        GameObject missile = locationInstaller.CreateEnemy(projectile, spawner);
         sfx.PlayMissileLaunchSound();
     }
 

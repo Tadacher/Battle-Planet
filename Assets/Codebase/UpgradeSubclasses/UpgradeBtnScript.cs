@@ -11,7 +11,7 @@ public abstract class UpgradeBtnScript : MonoBehaviour
     [SerializeField]
     protected string gradeName, description;
     protected GameObject gameController;
-    protected SfxController sfx;
+    protected SoundEffectsService sfx;
     protected Button selfbutton;
 
     protected UiController uiController;
@@ -21,7 +21,7 @@ public abstract class UpgradeBtnScript : MonoBehaviour
     protected PlanetHitpoints planetHitpoints;
 
     [Inject]
-    void Construct(UiController _uicontroller, PlanetaryUpgrades _planetaryUpgrades, SfxController _sfx, Shipcontroll _shipcontroll, PlayerBehavoiur _playerBehavoiur, PlanetHitpoints _planetHitpoints)
+    void Construct(UiController _uicontroller, PlanetaryUpgrades _planetaryUpgrades, SoundEffectsService _sfx, Shipcontroll _shipcontroll, PlayerBehavoiur _playerBehavoiur, PlanetHitpoints _planetHitpoints)
     {
         uiController = _uicontroller;
         planetaryUpgrades = _planetaryUpgrades;
@@ -38,12 +38,19 @@ public abstract class UpgradeBtnScript : MonoBehaviour
     protected virtual void Apply()
     {
         planetaryUpgrades.isGrading = false;
-        sfx.PlayBuySound(true);
+        PlayBuySound(true);
         isActive = true;
         Effect();
         RemoveToBoughtList();
         CloseMenu();
     }
+
+    private void PlayBuySound(bool sucess)
+    {
+        if (sucess) sfx.PlaySucessBuySound();
+        else sfx.PlayUnsucessBuySound();
+    }
+
     protected virtual void InitializeSelf()
     {
             transform.GetChild(0).GetComponent<Text>().text = this.gradeName;

@@ -33,7 +33,7 @@ public class Shipcontroll : MonoBehaviour
     [SerializeField]
     int currentWeapon = 0;
     //to inject
-    SfxController sfx;
+    SoundEffectsService sfx;
     UiController uiController;
     //
 
@@ -123,7 +123,7 @@ public class Shipcontroll : MonoBehaviour
         }
     }
     [Inject]
-    private void Construct(SfxController sfxController, UiController uiContr)
+    private void Construct(SoundEffectsService sfxController, UiController uiContr)
     {
         sfx = sfxController;
         uiController = uiContr;

@@ -6,7 +6,7 @@ using Infrastructure;
 
 public class SpiralEnemy : EnemyBehaviour
 {
-    SfxController sfx;
+    SoundEffectsService sfx;
     LocationInstaller locationInstaller;
     [SerializeField]
     Transform turret, target, spawner;
@@ -20,7 +20,7 @@ public class SpiralEnemy : EnemyBehaviour
     float projectileSpeed = 4;
 
     [Inject]
-    void Construct(Shipcontroll shipcontroll, SfxController _sfx, LocationInstaller loc)
+    void Construct(Shipcontroll shipcontroll, SoundEffectsService _sfx, LocationInstaller loc)
     {
         sfx = _sfx;
         target = shipcontroll.gameObject.transform;
@@ -71,7 +71,7 @@ public class SpiralEnemy : EnemyBehaviour
     }
     protected override void Fire()
     {
-        GameObject bullet = locationInstaller.EnemyFactory(projectile, spawner); 
+        GameObject bullet = locationInstaller.CreateEnemy(projectile, spawner); 
         bullet.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * projectileSpeed, ForceMode2D.Impulse);
         sfx.PlayenemyCanoneerShotSound();
     }
