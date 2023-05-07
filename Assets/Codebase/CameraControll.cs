@@ -7,10 +7,10 @@ public class CameraControll : MonoBehaviour
 {
     public float zoomMin, zoomMax, zoomspeed;
     Camera myCamera;
-    UiController ui;
+    UiService ui;
 
-    [Inject]
-    void Construct(UiController _uicontroller)
+    
+    void Construct(UiService _uicontroller)
     {
         ui = _uicontroller;
     }

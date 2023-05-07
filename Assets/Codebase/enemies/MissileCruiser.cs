@@ -8,7 +8,7 @@ using Infrastructure;
 public class MissileCruiser : EnemyBehaviour
 {
     AIDestinationSetter targetSetter;
-    SoundEffectsService sfx;
+    SfxService sfx;
     LocationInstaller locationInstaller;
     [SerializeField]
     bool isChangingPosition;
@@ -23,7 +23,7 @@ public class MissileCruiser : EnemyBehaviour
     float curTimeTofire;
 
     [Inject]
-    void Construct(SoundEffectsService _sfx, LocationInstaller loc)
+    void Construct(SfxService _sfx, LocationInstaller loc)
     {
         sfx = _sfx;
         locationInstaller = loc;

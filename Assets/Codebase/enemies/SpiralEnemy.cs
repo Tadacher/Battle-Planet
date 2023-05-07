@@ -6,7 +6,7 @@ using Infrastructure;
 
 public class SpiralEnemy : EnemyBehaviour
 {
-    SoundEffectsService sfx;
+    SfxService sfx;
     LocationInstaller locationInstaller;
     [SerializeField]
     Transform turret, target, spawner;
@@ -20,7 +20,7 @@ public class SpiralEnemy : EnemyBehaviour
     float projectileSpeed = 4;
 
     [Inject]
-    void Construct(Shipcontroll shipcontroll, SoundEffectsService _sfx, LocationInstaller loc)
+    void Construct(ShipBehaviour shipcontroll, SfxService _sfx, LocationInstaller loc)
     {
         sfx = _sfx;
         target = shipcontroll.gameObject.transform;

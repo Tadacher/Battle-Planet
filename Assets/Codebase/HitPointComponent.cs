@@ -5,40 +5,40 @@ using Zenject;
 /// <summary>
 /// contains onwer unit hitpoint system 
 /// </summary>
-public class HitPointComponent : MonoBehaviour
+public class HitPointComponent : MonoBehaviour, IDamageReciever
 {   
-    public short hitpoints, hpRegen, shield, shieldregen;
-    public short maxHp, maxShield;
-    protected short originalMaxHp, originalMaxShield;
-    [SerializeField]
-    Sprite ownsprite;
-    [SerializeField]
-    GameObject particleSystemPrefab;
-    [SerializeField]
-    protected float timeToRegen, regenInterval;
-    [SerializeField]
-    protected EnemyBehaviour enemyBehaviour;
+    public short hitpoints, hpRegen, maxHp, shield, shieldregen, maxShield;
+    protected short originalMaxHp, originalMaxShield, originalHpRegen, originalShieldRegen;
+    [SerializeField] protected float timeToRegen, regenInterval;
+    
+    [SerializeField] GameObject particleSystemPrefab;
     [SerializeField]
     /// <summary>
     /// no calls for OnDamageRecieved if false
     /// </summary>
     protected bool sendDamageInfo;
-    [SerializeField]
-    protected bool spawnParticles, isNotCounted;
-    protected ScoreControll scoreControll;
-    SoundEffectsService sfx;
+    [SerializeField] protected bool spawnParticles;
+    protected ScoreControll _scoreControll;
+    SfxService _sfxService;
 
     [Inject]
-    void Construct(SoundEffectsService _sfx, ScoreControll _scoreControll)
+    void Construct(SfxService sfx, ScoreControll scoreControll)
     {
-        sfx = _sfx;
-        scoreControll = _scoreControll;
+        _sfxService = sfx;
+        _scoreControll = scoreControll;
+        InitializeSelf();
     }
-    private void Start()
+    private void InitializeSelf()
     {
         maxHp = hitpoints;
+        originalHpRegen = hpRegen;
+        originalMaxHp = maxHp;
+
         maxShield = shield;
+        originalShieldRegen = shieldregen;
+        originalMaxShield = maxShield;
     }
+
     private void Update()
     {
         timeToRegen -= Time.deltaTime;
@@ -55,12 +55,7 @@ public class HitPointComponent : MonoBehaviour
         else if (shield - (short)damage >= 0) shield -= (short)damage;
         else if (shield - (short)damage < 0) shield = 0;
 
-        if (hitpoints <= 0)
-        {
-            if(!isNotCounted) PlusScore();
-            Die();
-        }
-        if(sendDamageInfo) enemyBehaviour.OnDamageRecieved();
+        if (hitpoints <= 0) Die();
     }
 
     protected virtual void Regen()
@@ -72,23 +67,20 @@ public class HitPointComponent : MonoBehaviour
         else shield = maxShield;
     }
 
-    public void RefreshRegenTime()
-    {
-        timeToRegen = regenInterval;
-    }
+    public void RefreshRegenTime() => timeToRegen = regenInterval;
 
     public void Die()
     {
-        sfx.PlayEnemyDeathSound();
+        PlayDeathSound();
         if (spawnParticles)
         {
-            GameObject partSystem = Instantiate(particleSystemPrefab, transform.position, transform.rotation, null);
-            partSystem.GetComponent<SpriteRenderer>().sprite = ownsprite;
+            //GameObject partSystem = Instantiate(particleSystemPrefab, transform.position, transform.rotation, null);
+            // partSystem.GetComponent<SpriteRenderer>().sprite = ownsprite;
         }
         Destroy(gameObject);
     }
-    public void PlusScore()
-    {
-        scoreControll.PlusFrag();
-    }
+
+    protected virtual void PlayDeathSound() => _sfxService.PlayEnemyDeathSound();
+
+    public void PlusScore() => _scoreControll.PlusScore(1);
 }

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3495802503025930167}
   - component: {fileID: 3495802503025930170}
   - component: {fileID: 7449963315265260623}
-  - component: {fileID: 3495802503025930171}
   - component: {fileID: 3495802503025930164}
   - component: {fileID: 7143886897542991746}
   m_Layer: 0
@@ -224,25 +223,6 @@ CircleCollider2D:
   m_Offset: {x: 0.026443727, y: -0.031536825}
   serializedVersion: 2
   m_Radius: 0.8000277
---- !u!114 &3495802503025930171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3495802503025930160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3211d6f5299788d439728bb93d2919b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicClips:
-  - {fileID: 8300000, guid: e01ce3052ec821e4ba57f26fb129a25e, type: 3}
-  - {fileID: 8300000, guid: 1dd5cf61838e3c243844cdb996923ada, type: 3}
-  - {fileID: 8300000, guid: 64ae32c08f54cba45adde59b4e266414, type: 3}
-  - {fileID: 8300000, guid: cc598cf1f7ad2c746abdb7f736164433, type: 3}
-  - {fileID: 8300000, guid: bc19c83627ff3df4bba78f1684a8821a, type: 3}
-  source: {fileID: 3495802503025930170}
 --- !u!114 &3495802503025930164
 MonoBehaviour:
   m_ObjectHideFlags: 0

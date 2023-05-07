@@ -23,7 +23,7 @@ public class ShootingSpeedIncrease : UpgradeBtnScript
     {
        for (int i = 0; i < shipcontroll.projectileInfos.Length; i++)
         {
-            shipcontroll.projectileInfos[i].shotInterval -= shipcontroll.projectileInfos[i].originalInterval * increasementPercent;
+            shipcontroll.projectileInfos[i].shotInterval -= shipcontroll.projectileInfos[i].OriginalInterval * increasementPercent;
             shipcontroll.UpdateShootInterval();
         }
     }

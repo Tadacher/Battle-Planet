@@ -51,7 +51,7 @@ public class AssaulFrigate : EnemyBehaviour
         {
             collision.gameObject.GetComponent<HitPointComponent>().RecieveDamage(damage * 2);
             hpComponent.Die();
-            scoreControll.PlusFrag();
+            scoreControll.PlusScore(1);
 
         }
         else if(collision.transform.tag is "Planet")
@@ -67,7 +67,7 @@ public class AssaulFrigate : EnemyBehaviour
         {
             collision.gameObject.GetComponent<HitPointComponent>().RecieveDamage(damage * 2);
             hpComponent.Die();
-            scoreControll.PlusFrag();
+            scoreControll.PlusScore(1);
 
         }
         else if (collision.transform.tag is "Planet")

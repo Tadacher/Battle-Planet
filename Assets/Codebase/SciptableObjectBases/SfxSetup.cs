@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "SfxData", menuName = "ScriptableObjects/SfxSetupScriptableObject", order = 2)]
 public class SfxSetup : ScriptableObject
@@ -15,5 +13,5 @@ public class SfxSetup : ScriptableObject
         shotAudios,
         crushAudios,
         enemyDeathAiduos;
-    public AudioClip[] _musicClips;
 }
+

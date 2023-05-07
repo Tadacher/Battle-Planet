@@ -16,15 +16,19 @@ public class UiDependenciesContainer : MonoBehaviour
         RespawnTime,
         gradeMenuContent,
         BoughtgradeMenuContent,
-        callBoughtGradeBtn,
-        closeBoughtGradeBtn,
+        
         planetHpText,
         loseScreen,
         score,
-        timescore,
+        timescore;
+
+    public Button
+        callBoughtGradeBtn,
+        closeBoughtGradeBtn,
         restartBtn;
-        
-        
+
+
+
     public Image
         shipHpImg,
         shipShieldImg,

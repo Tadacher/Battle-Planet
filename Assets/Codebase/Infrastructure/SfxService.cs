@@ -1,23 +1,29 @@
-﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Zenject;
 
-public class SfxService : MonoBehaviour
+public class SfxService
 {
-    [SerializeField] SfxSetup _sfxSetup;
+    public AudioSource _source;
+    SfxSetup _sfxSetup;
 
-    [SerializeField] AudioSource 
-        _musicSource,
-        _effectsSource;
-
-    MusicPlayerService _musicService;
-    SoundEffectsService _soundEffectsService;
-    private void Awake()
+    public SfxService()
     {
-        _musicService = new MusicPlayerService(_sfxSetup, _musicSource);
-        _soundEffectsService = new SoundEffectsService( _effectsSource, _sfxSetup);
     }
 
-    private void Update()
+    [Inject]
+    public void Construct()
     {
-        if (_musicService.MusicPlaying()) _musicService.StartNewTrack();
+        //_sfxSetup = sfxSetup;
     }
+
+    public void PlaySucessBuySound() => _source.PlayOneShot(_sfxSetup.canBuy);
+    public void PlayUnsucessBuySound() => _source.PlayOneShot(_sfxSetup.cantBuy);
+    public void PlayPlayerShotSound(int id) => _source.PlayOneShot(_sfxSetup.shotAudios[id]);
+    public void PlayPlayerCrushSound(int id) => _source.PlayOneShot(_sfxSetup.crushAudios[id]);
+    public void PlayEnemyDeathSound() => _source.PlayOneShot(_sfxSetup.enemyDeathAiduos[Random.Range(0, _sfxSetup.enemyDeathAiduos.Length)]);
+    public void PlayMissileLaunchSound() => _source.PlayOneShot(_sfxSetup.missileLaunch);
+    public void PlayenemyCanoneerShotSound() => _source.PlayOneShot(_sfxSetup.enemyCanoneerShotSound);
+    public void PlayLvlupSound() => _source.PlayOneShot(_sfxSetup.lvlup);
 }

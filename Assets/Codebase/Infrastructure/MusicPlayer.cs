@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class MusicPlayerService 
+public class MusicPlayer 
 {
 
-    SfxSetup _sfxSetup;
+    MusicSetup _sfxSetup;
     AudioSource _source;
 
-    public MusicPlayerService(SfxSetup sfxSetup, AudioSource source)
+    public MusicPlayer(MusicSetup sfxSetup, AudioSource source)
     {
        _sfxSetup = sfxSetup;
         _source = source;

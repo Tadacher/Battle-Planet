@@ -15,15 +15,16 @@ public class PlanetaryUpgrades : MonoBehaviour
     float gradecost;
 
     //to inject
-    UiController uiController;
-    SoundEffectsService sfx;
+    UiService uiService;
+    SfxService sfx;
     LocationInstaller locationInstaller;
     GameObject menuContent;
     //
     [Inject]
-    void Construct(UiController uiContr, SoundEffectsService _sfx, UiDependenciesContainer uiDependenciesContainer, LocationInstaller _locationInstaller)
+    void Construct(UiService uiContr, SfxService _sfx, UiDependenciesContainer uiDependenciesContainer, LocationInstaller _locationInstaller)
     {
-        uiController = uiContr;
+        Debug.Log(uiContr);
+        uiService = uiContr;
         sfx = _sfx;
         menuContent = uiDependenciesContainer.gradeMenuContent;
         locationInstaller = _locationInstaller;
@@ -31,13 +32,13 @@ public class PlanetaryUpgrades : MonoBehaviour
     void Update()
     {
         currentFunds += passiveIncome * Time.deltaTime;
-        uiController.DrawFunds(string.Format("{0:0.00}", currentFunds), currentFunds, gradecost);
+        uiService.DrawFunds(string.Format("{0:0.00}", currentFunds), currentFunds, gradecost);
         if(currentFunds> gradecost && !isGrading)
         {
             currentFunds -= gradecost;
             isGrading = true;
             sfx.PlayLvlupSound();
-            uiController.TurnUpgradeMenu(true);
+            uiService.TurnUpgradeMenu(true);
             ConstructRandomUpgrade();
             ConstructRandomUpgrade();
             ConstructRandomUpgrade();

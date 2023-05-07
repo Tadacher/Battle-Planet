@@ -11,17 +11,17 @@ public abstract class UpgradeBtnScript : MonoBehaviour
     [SerializeField]
     protected string gradeName, description;
     protected GameObject gameController;
-    protected SoundEffectsService sfx;
+    protected SfxService sfx;
     protected Button selfbutton;
 
-    protected UiController uiController;
+    protected UiService uiController;
     protected PlanetaryUpgrades planetaryUpgrades;
-    protected Shipcontroll shipcontroll;
-    protected PlayerBehavoiur playerBehavoiur;
+    protected ShipBehaviour shipcontroll;
+    protected ShipHitpointComponent playerBehavoiur;
     protected PlanetHitpoints planetHitpoints;
 
     [Inject]
-    void Construct(UiController _uicontroller, PlanetaryUpgrades _planetaryUpgrades, SoundEffectsService _sfx, Shipcontroll _shipcontroll, PlayerBehavoiur _playerBehavoiur, PlanetHitpoints _planetHitpoints)
+    void Construct(UiService _uicontroller, PlanetaryUpgrades _planetaryUpgrades, SfxService _sfx, ShipBehaviour _shipcontroll, ShipHitpointComponent _playerBehavoiur, PlanetHitpoints _planetHitpoints)
     {
         uiController = _uicontroller;
         planetaryUpgrades = _planetaryUpgrades;

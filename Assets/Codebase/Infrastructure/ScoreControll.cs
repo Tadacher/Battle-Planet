@@ -1,31 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Zenject;
 
-public class ScoreControll : MonoBehaviour
+public class ScoreControll
 {
-    UiController uiController;
-    EnemySpawner enemySpawner;
-    bool gameIsOver;
-    int frag;
-    [Inject]
-    void Construct(UiController _uiController)
+
+    public int score;
+
+    public ScoreControll()
     {
-        uiController = _uiController;
+
     }
-   public void PlusFrag()
-    {
-        frag++;
-    }
-    public void GameOver()
-    {
-        if (!gameIsOver)
-        {
-            gameIsOver = true;
-            uiController.DrawFragScore(frag);
-            uiController.DrawTimeScore(Time.time);
-            uiController.TurnGameOverMenu();
-        }
-    }
+
+    public void PlusScore(int plus) => score+=plus;
+    
 }

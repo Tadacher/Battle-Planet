@@ -7,18 +7,19 @@ using Zenject;
 public class PlanetHitpoints : HitPointComponent
 {
     short originalHp;
-    UiController uiController;
+    UiService uiController;
     [Inject]
-    void Construct(UiController _uicontroller, ScoreControll _scoreControll)
+    void Construct(UiService _uicontroller, ScoreControll _scoreControll)
     {
         uiController = _uicontroller;
-        scoreControll = _scoreControll;
+        base._scoreControll = _scoreControll;
     }
     private void Start()
     {
         maxHp = hitpoints;
         originalHp = maxHp;
         maxShield = shield;
+        Debug.Log(uiController);
         uiController.DrawPlanetHp(hitpoints, maxHp);
     }
     private void Update()
@@ -38,7 +39,6 @@ public class PlanetHitpoints : HitPointComponent
         else if (shield - (short)damage < 0) shield = 0;
 
         if (hitpoints <= 0) GameOver();
-        if (sendDamageInfo) enemyBehaviour.OnDamageRecieved();
 
         uiController.DrawPlanetHp(hitpoints, maxHp);
     }
@@ -49,6 +49,6 @@ public class PlanetHitpoints : HitPointComponent
     }
     public void GameOver()
     {
-        scoreControll.GameOver();
+
     }
 }

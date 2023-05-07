@@ -125,9 +125,9 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator waveLauncherExemplar;
     //toinject
-    Shipcontroll shipcontroll;
+    ShipBehaviour shipcontroll;
     [Inject]
-    void Construct(Shipcontroll _shipControll, LocationInstaller loc)
+    void Construct(ShipBehaviour _shipControll, LocationInstaller loc)
     {
         shipcontroll = _shipControll;
         locationInstaller = loc;

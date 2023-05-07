@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4409945626170881325
+--- !u!1 &2355227913958828158
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4409945626170881327}
-  - component: {fileID: 4409945626170881324}
+  - component: {fileID: 6381215346052587297}
+  - component: {fileID: 815832621730625598}
   m_Layer: 0
-  m_Name: UiController
+  m_Name: CoroutineProcessor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4409945626170881327
+--- !u!4 &6381215346052587297
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4409945626170881325}
+  m_GameObject: {fileID: 2355227913958828158}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.9948357, y: 0.43911606, z: -0.47895545}
+  m_LocalPosition: {x: 0.06952691, y: 2.548213, z: 5.4684906}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4409945626170881324
+--- !u!114 &815832621730625598
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4409945626170881325}
+  m_GameObject: {fileID: 2355227913958828158}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6a06c93be426e7438c0eb7fcef89228, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c70992c27650624c8ad0d830268db34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpText: {fileID: 0}
-  shieldText: {fileID: 0}
-  fundsText: {fileID: 0}
-  gameMenu: {fileID: 0}
-  upgradeMenu: {fileID: 0}
-  boughtGradesMenu: {fileID: 0}
-  respawnTimer: {fileID: 0}
-  ingameUi: {fileID: 0}

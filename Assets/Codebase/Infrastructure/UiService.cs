@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 using UnityEngine.SceneManagement;
+using System;
+using UnityEngine.Events;
 
-
-public class UiController : MonoBehaviour
+public class UiService
 {
     Text hpText, shieldText, fundsText, planetHpText, score, timeScore;
-    GameObject gameMenu,  upgradeMenu, boughtGradesMenu, restartBtn, losescreen;
+    GameObject gameMenu,  upgradeMenu, boughtGradesMenu, losescreen;
     RespawnTimer respawnTimer;
     Image shipHpImg,
           shipShieldImg,
@@ -18,13 +19,9 @@ public class UiController : MonoBehaviour
     public GameObject ingameUi;
 
     public Transform gradesContent, boughtGradesContent;
-  
+
     [Inject]
-    void Construct(UiDependenciesContainer _uiDependenciesContainer)
-    {
-       Init(_uiDependenciesContainer);
-    }
-    void Init(UiDependenciesContainer uiDep)
+    public void Init (UiDependenciesContainer uiDep)
     {
         hpText = uiDep.hitpoints.GetComponent<Text>();
         shieldText = uiDep.shield.GetComponent<Text>();
@@ -35,37 +32,45 @@ public class UiController : MonoBehaviour
         planetHpText = uiDep.planetHpText.GetComponent<Text>();
 
         gameMenu = uiDep.gameMenu;
-        restartBtn = uiDep.restartBtn;
         upgradeMenu = uiDep.upgradeMenu;
         boughtGradesMenu = uiDep.BoughtGrades;
         losescreen = uiDep.loseScreen;
         ingameUi = uiDep.ingameUi;
         gradesContent = uiDep.gradeMenuContent.transform;
         boughtGradesContent = uiDep.BoughtgradeMenuContent.transform;
-        this.shipHpImg = uiDep.shipHpImg;
+        shipHpImg = uiDep.shipHpImg;
         shipShieldImg = uiDep.shipShieldImg;
         planetHpImg = uiDep.planetHpImg;
         fundsProgressImg = uiDep.fundsProgressImg;
 
         respawnTimer = uiDep.RespawnTime.GetComponent<RespawnTimer>();
 
-        uiDep.callBoughtGradeBtn.GetComponent<Button>().onClick.AddListener(TurnBoughtGradesMenu);
-        uiDep.closeBoughtGradeBtn.GetComponent<Button>().onClick.AddListener(TurnBoughtGradesMenu);
-        uiDep.restartBtn.GetComponent<Button>().onClick.AddListener(RestartScene);
-
-        
-        
+       // RegisterUiButtonListeners(uiDep);
+        Debug.Log("uiservice injected");
     }
-    private void Update()
+    public UiService()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (!gameMenu.activeSelf) gameMenu.SetActive(true);
-            else gameMenu.SetActive(false);
-        }
+
     }
+
+    private void RegisterUiButtonListeners(UiDependenciesContainer uiDep)
+    {
+        AddUiButtonListener(uiDep.callBoughtGradeBtn, TurnBoughtGradesMenu);
+        AddUiButtonListener(uiDep.closeBoughtGradeBtn, TurnBoughtGradesMenu);
+        AddUiButtonListener(uiDep.restartBtn, RestartScene);
+    }
+
+    private void AddUiButtonListener(Button button, UnityAction onclick) => button.onClick.AddListener(onclick);
+
+    public void ToggleGameMenu()
+    {
+        if (!gameMenu.activeSelf) gameMenu.SetActive(true);
+        else gameMenu.SetActive(false);
+    }
+
     public void DrawHP(int hp, int maxhp)
     {
+        Debug.Log("drawn");
        hpText.text = hp.ToString() + " hp";
        shipHpImg.fillAmount = (float)((float)hp / (float)maxhp);
         Debug.Log((float)hp / (float)maxhp);
@@ -87,14 +92,8 @@ public class UiController : MonoBehaviour
         planetHpText.text ="Planet " + hp.ToString() + " hp";
         planetHpImg.fillAmount = (float)hp / (float)maxhp;
     }
-    public void DrawFragScore(int scoreCount)
-    {
-        score.text = scoreCount + " kills";
-    }
-    public void DrawTimeScore(float time)
-    {
-        timeScore.text = "Holded invasion for " + time + " sec";
-    }
+    public void DrawFragScore(int scoreCount) => score.text = scoreCount + " kills";
+    public void DrawTimeScore(float time) => timeScore.text = "Holded invasion for " + time + " sec";
 
     public void EnableShield()
     {
@@ -104,49 +103,26 @@ public class UiController : MonoBehaviour
     public void TurnUpgradeMenu(bool switcher)
     {
         upgradeMenu.SetActive(switcher);
-        TurnGameTime(switcher);
         TurnIngameUi(!switcher);
     }
-    /// <summary>
-    /// Sets timescale to 0 if swithcer param is true, to 1 if not
-    /// </summary>
-    public void TurnGameTime(bool switcher)
-    {
-        if (switcher) StopGame();
-        else StartGame();
-    }
-    public void StopGame()
-    {
-        Time.timeScale = 0f;
-    }
-    public void StartGame()
-    {
-        Time.timeScale = 1f;
-    }
-    public void RestartScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+
+   
+    public void RestartScene() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
     public void TurnBoughtGradesMenu()
     {
         if (!boughtGradesMenu.activeSelf)
         {
             boughtGradesMenu.SetActive(true);
-            TurnGameTime(true);
             TurnIngameUi(false);
         }
         else
         {
             boughtGradesMenu.SetActive(false);
-            TurnGameTime(false);
             TurnIngameUi(true);
         }     
     }
-    public void TurnIngameUi(bool switcher)
-    {
-        ingameUi.SetActive(switcher);
-    }
+    public void TurnIngameUi(bool switcher) => ingameUi.SetActive(switcher);
     public void TurnGameOverMenu()
     {
         TurnIngameUi(false);
@@ -158,8 +134,5 @@ public class UiController : MonoBehaviour
         respawnTimer.timeLeft = time;
     }
 
-    public void MoveToBought(UpgradeBtnScript _gameObject)
-    {
-        _gameObject.transform.parent = boughtGradesContent;
-    }
+    public void MoveToBought(UpgradeBtnScript _gameObject) => _gameObject.transform.parent = boughtGradesContent;
 }
