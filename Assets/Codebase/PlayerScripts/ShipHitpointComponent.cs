@@ -12,7 +12,7 @@ public class ShipHitpointComponent : HitPointComponent
     ShipBehaviour _shipcontroll;
     UiService _uiService;
 
-    public ShipHitpointComponent(ShipBehaviour shipBehaviour, UiService uiController)
+    public void Construct(ShipBehaviour shipBehaviour, UiService uiController)
     {
         _shipcontroll = shipBehaviour;
         _uiService = uiController;

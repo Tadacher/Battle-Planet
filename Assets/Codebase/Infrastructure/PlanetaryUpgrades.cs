@@ -4,41 +4,43 @@ using UnityEngine;
 using Zenject;
 using Infrastructure;
 
-public class PlanetaryUpgrades : MonoBehaviour
+public class PlanetaryUpgrades
 {
     public float passiveIncome;
     public float currentFunds;
     public GameObject[] upgrades;
     public bool isGrading;
 
-    [SerializeField]
-    float gradecost;
-
+    [SerializeField] float gradecost;
+    TickDelegate tickDelegate;
     //to inject
-    UiService uiService;
-    SfxService sfx;
-    LocationInstaller locationInstaller;
-    GameObject menuContent;
+    UiService _uiService;
+    SfxService _sfx;
+    LocationInstaller _locationInstaller;
+    GameObject _menuContent;
+    TickableService _tickableService;
     //
     [Inject]
-    void Construct(UiService uiContr, SfxService _sfx, UiDependenciesContainer uiDependenciesContainer, LocationInstaller _locationInstaller)
+    void Construct(UiService uiService, SfxService sfx, UiDependenciesContainer uiDependenciesContainer, LocationInstaller locationInstaller, TickableService tickableService)
     {
-        Debug.Log(uiContr);
-        uiService = uiContr;
-        sfx = _sfx;
-        menuContent = uiDependenciesContainer.gradeMenuContent;
-        locationInstaller = _locationInstaller;
+        _uiService = uiService;
+        _sfx = sfx;
+        _menuContent = uiDependenciesContainer.gradeMenuContent;
+        _locationInstaller = locationInstaller;
+        tickDelegate += Tick;
+        tickableService.AddToTick(tickDelegate);
+
     }
-    void Update()
+    void Tick()
     {
         currentFunds += passiveIncome * Time.deltaTime;
-        uiService.DrawFunds(string.Format("{0:0.00}", currentFunds), currentFunds, gradecost);
+        _uiService.DrawFunds(string.Format("{0:0.00}", currentFunds), currentFunds, gradecost);
         if(currentFunds> gradecost && !isGrading)
         {
             currentFunds -= gradecost;
             isGrading = true;
-            sfx.PlayLvlupSound();
-            uiService.TurnUpgradeMenu(true);
+            _sfx.PlayLvlupSound();
+            _uiService.TurnUpgradeMenu(true);
             ConstructRandomUpgrade();
             ConstructRandomUpgrade();
             ConstructRandomUpgrade();
@@ -49,11 +51,8 @@ public class PlanetaryUpgrades : MonoBehaviour
     /// </summary>
     public void ConstructUpgrade(int index)
     {
-        GameObject upgradeBase = locationInstaller.CreateUpgrade(upgrades[index], menuContent.transform);
+        GameObject upgradeBase = _locationInstaller.CreateUpgrade(upgrades[index], _menuContent.transform);
     }
 
-    public void ConstructRandomUpgrade()
-    {
-        ConstructUpgrade(Random.Range(0, upgrades.Length));
-    }
+    public void ConstructRandomUpgrade() => ConstructUpgrade(Random.Range(0, upgrades.Length));
 }

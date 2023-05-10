@@ -5,29 +5,25 @@ using Zenject;
 using Infrastructure;
 
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner 
 {
-
-    public Transform[] spawnpoints;
-    public GameObject[] enemy;
-    public LocationInstaller locationInstaller;
+    [SerializeField] float[] enemyCosts = new float[4]; //where indexator same with enemytypes id;
+    [SerializeField] float stdTimeTillNextWave;
+    [SerializeField] bool coroutineIsOn;
 
     enum enemyTypes {mosqito, canoneer, assaulteer, missile};
     int mosquitoTraj;
     enum curveTypes {straight, circle};
   
-    Transform currentSpawnPos;
     
     float enemyStrenght, enemystrenghtmod =1f; 
     float timetillnextWave;
 
-    [SerializeField]
-    float[] enemyCosts = new float[4]; //where indexator same with enemytypes id;
-    [SerializeField]
-    float stdTimeTillNextWave;  
-    [SerializeField]
-    bool coroutineIsOn;
+   
+    Transform currentSpawnPos;
 
+    public Transform[] spawnpoints;
+    public GameObject[] enemy;
     public struct Wave
     {
         public short count;
@@ -85,14 +81,13 @@ public class EnemySpawner : MonoBehaviour
     Wave wave;
     public IEnumerator WaveLauncher()
     {
-        while (true)
+        while (wave.spawnedEnemies < wave.count)
         {
-            if (wave.spawnedEnemies < wave.count)
-            {
+           
                 wave.spawnedEnemies++;
-                GameObject enemyGo = locationInstaller.CreateEnemy(enemy[wave.type], currentSpawnPos);
+                GameObject enemyGo = _locationInstaller.CreateEnemy(enemy[wave.type], currentSpawnPos);
 
-                enemyGo.GetComponent<EnemyBehaviour>().player = shipcontroll.gameObject.transform;
+                enemyGo.GetComponent<EnemyBehaviour>().player = _shipcontroll.gameObject.transform;
 
                 if (wave.type == 0)
                 {
@@ -105,41 +100,40 @@ public class EnemySpawner : MonoBehaviour
                     else if (mosquitoTraj == 2) mosquitoFleet.SetCircleArguments();
                 }
                 Debug.Log(wave.spawnedEnemies + " out of " + wave.count);
-                yield return new WaitForSeconds(wave.betweenDelay);
-            }
-            else if (wave.spawnedEnemies == wave.count)
-            {
-                coroutineIsOn = false;
-                Debug.Log("Coro stopped");
-                StopCoroutine(waveLauncherExemplar);
-            }
-            else
-            {
-                Debug.LogWarning("spawner bug");
-                coroutineIsOn = false;
-                StopCoroutine(waveLauncherExemplar);
-            }
-            yield return new WaitForEndOfFrame();
+                yield return new WaitForSeconds(wave.betweenDelay);     
+        }
+        if (wave.spawnedEnemies == wave.count)
+        {
+            Debug.Log("Coro stopped");
+            yield break;
+        }
+        else
+        {
+            Debug.LogWarning("spawner bug");
+            yield break;
         }
     }
 
-    IEnumerator waveLauncherExemplar;
+    TickDelegate tickDelegate;
     //toinject
-    ShipBehaviour shipcontroll;
+    ShipBehaviour _shipcontroll;
+    LocationInstaller _locationInstaller;
+    CoroutineProcessor _coroutinePrecessor;
     [Inject]
-    void Construct(ShipBehaviour _shipControll, LocationInstaller loc)
+    void Construct(ShipBehaviour _shipControll, LocationInstaller loc, CoroutineProcessor coroutineProcessor, TickableService tickableService, EnemySpawnPositionsContainer enemySpawnPositionsContainer)
     {
-        shipcontroll = _shipControll;
-        locationInstaller = loc;
-    }
-    private void Start()
-    {
+        _shipcontroll = _shipControll;
+        _locationInstaller = loc;
+        _coroutinePrecessor = coroutineProcessor;
+        spawnpoints = enemySpawnPositionsContainer.spawnPoints;
         timetillnextWave = stdTimeTillNextWave;
-        waveLauncherExemplar = WaveLauncher();
         enemyStrenght = 1f;
         currentSpawnPos = RandomSpawnPos();
+        tickDelegate += Tick;
+        tickableService.AddToTick(tickDelegate);
     }
-    private void Update()
+
+    private void Tick()
     {
         enemyStrenght += Time.deltaTime * enemystrenghtmod;
         enemystrenghtmod *= 1.0001f;
@@ -149,16 +143,12 @@ public class EnemySpawner : MonoBehaviour
             currentSpawnPos = RandomSpawnPos();
             mosquitoTraj = Random.Range(0, 4);
             wave = GenerateWave();
-            StartCoroutine(waveLauncherExemplar);
-            coroutineIsOn = true;
+            _coroutinePrecessor.StartCoroutineProcess(WaveLauncher());
             SetTillWaveTimer(); 
         }
-        if (Input.GetKeyDown(KeyCode.F)) locationInstaller.CreateEnemy(enemy[2], currentSpawnPos);
+        if (Input.GetKeyDown(KeyCode.F)) _locationInstaller.CreateEnemy(enemy[2], currentSpawnPos);
     }
-    Wave GenerateWave()
-    {
-        return new Wave(ref enemyStrenght, enemyCosts, FindEnemyMaxValue());
-    }
+    Wave GenerateWave() => new Wave(ref enemyStrenght, enemyCosts, FindEnemyMaxValue());
     public Wave[] waves = new Wave[2];
     float FindEnemyMaxValue()
     {
@@ -182,6 +172,11 @@ public class EnemySpawner : MonoBehaviour
 
     public Transform RandomSpawnPos()
     {
-        return spawnpoints [Random.Range(0, spawnpoints.Length)];
+        if (spawnpoints.Length > 0) return spawnpoints[Random.Range(0, spawnpoints.Length)];
+        else
+        {
+            Debug.Log("no spawnpoints");
+            return null;
+        }
     }
 }

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a378e12f3f70c8a47a451b0845701ed2, type: 3}
+  m_Name: SfxData
+  m_EditorClassIdentifier: 
+  canBuy: {fileID: 8300000, guid: a38d506eec0504747b4056378986e1d1, type: 3}
+  cantBuy: {fileID: 8300000, guid: 433afd94dbe6dec4aae5a23d62fdcde4, type: 3}
+  missileLaunch: {fileID: 8300000, guid: 4a8089b34d71d0b44b42e0960ed2f59e, type: 3}
+  enemyCanoneerShotSound: {fileID: 8300000, guid: 15993325463d2bd499e42f1cc4ba07a2, type: 3}
+  lvlup: {fileID: 8300000, guid: 6f8c1afc06bf3534e8183242c30b9e12, type: 3}
+  shotAudios:
+  - {fileID: 8300000, guid: 8bfb46e4a4b8cde46a2e2e1ec5e108af, type: 3}
+  crushAudios:
+  - {fileID: 8300000, guid: b1be6e0aee62fbc4eb1795908d4204fb, type: 3}
+  - {fileID: 8300000, guid: 5b58c41c1bc632043b38771768d9b45f, type: 3}
+  - {fileID: 8300000, guid: b1be6e0aee62fbc4eb1795908d4204fb, type: 3}
+  enemyDeathAiduos:
+  - {fileID: 8300000, guid: 1034944bd2d34f14980078b9e58b7167, type: 3}

@@ -1,4 +1,5 @@
 using Codebase.Infrastructure;
+using Infrastructure;
 using System.Collections;
 using UnityEngine;
 using Zenject;
@@ -96,7 +97,7 @@ public class ShipBehaviour : MonoBehaviour
     
     
     [Inject]
-    private void Construct(SfxService sfxService, UiService uiController, CoroutineProcessor coroutineProcessor, PlayerInput playerInput)
+    private void Construct(SfxService sfxService, UiService uiController, CoroutineProcessor coroutineProcessor, PlayerInput playerInput, LocationInstaller locationInstaller)
     {
         _sfxService = sfxService;
         _uiController = uiController;
@@ -110,6 +111,8 @@ public class ShipBehaviour : MonoBehaviour
         shootInterval = projectileInfos[currentWeapon].shotInterval;
 
         CacheOriginalValues();
+        _shipHpComponent = gameObject.AddComponent<ShipHitpointComponent>();
+        _shipHpComponent.Construct(this, uiController);
     }
 
     void Update()

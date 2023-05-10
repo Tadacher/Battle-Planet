@@ -1,3 +1,4 @@
+using Infrastructure;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,9 +14,13 @@ public class SfxService
     }
 
     [Inject]
-    public void Construct()
+    public void Construct(SfxSetup sfxSetup, LocationInstaller locationInstaller)
     {
-        //_sfxSetup = sfxSetup;
+        GameObject protosource = new GameObject("sfxSource");
+        protosource.AddComponent<AudioSource>();
+        protosource.transform.parent = locationInstaller.transform;
+        _source = protosource.GetComponent<AudioSource>();
+        _sfxSetup = sfxSetup;
     }
 
     public void PlaySucessBuySound() => _source.PlayOneShot(_sfxSetup.canBuy);

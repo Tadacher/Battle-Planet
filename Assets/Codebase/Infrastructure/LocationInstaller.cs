@@ -8,17 +8,13 @@ namespace Infrastructure
     public class LocationInstaller : MonoInstaller
     {
         public Transform StartPoint, controllerParent;
-        [SerializeField]
-        GameObject
+        [SerializeField] GameObject
             shipControllPrefab,
-            musicServicePrefab,
             UiContainerPrefab,
             cameraPrefab,
-            enemyspawnerPrefab,
             planetprefab,
-            planetaryupgradesPrefab,
             coroutineProcessorPrefab,
-            playerInputPrefab;
+            enemySpawnPositionsPrefab;
         public Transform[] enemySpawnPoints;
         [SerializeField] AudioSource sfxSource;
         [SerializeField] AudioSource musicSource;
@@ -29,26 +25,36 @@ namespace Infrastructure
         {
             BindLocInstaller();
             BindCamera();
+            BindItickable();
 
-            //BindScriptableObject<SfxSetup>(sfxSetup);
-            //BindScriptableObject<MusicSetup>(musicSetup);
-            BindMonobehaviourService<PlayerInput>(playerInputPrefab);
+            BindScriptableObject<SfxSetup>(sfxSetup);
+            BindScriptableObject<MusicSetup>(musicSetup);
+
+            BindMonobehaviourService<EnemySpawnPositionsContainer>(enemySpawnPositionsPrefab);
+            BindMonobehaviourService<PlanetHitpoints>(planetprefab);
             BindMonobehaviourService<ShipBehaviour>(shipControllPrefab);
             BindMonobehaviourService<UiDependenciesContainer>(UiContainerPrefab);
             BindMonobehaviourService<CoroutineProcessor>(coroutineProcessorPrefab);
-            //BindMonobehaviourService<MusicService>(musicServicePrefab);
-            BindMonobehaviourService<PlanetaryUpgrades>(planetaryupgradesPrefab);
-            BindMonobehaviourService<PlanetHitpoints>(planetprefab);
-            BindMonobehaviourService<EnemySpawner>(enemyspawnerPrefab);
-            Debug.Log("here");
+
+            BindNonMonobehService<PlayerInput>(true);
+            BindNonMonobehService<PlanetaryUpgrades>(true);
+            BindNonMonobehService<EnemySpawner>(true);  
             BindNonMonobehService<UiService>(true);
             BindNonMonobehService<ScoreControll>(false);
             BindNonMonobehService<SfxService>(true);
-            
+            BindNonMonobehService<MusicService>(true);
+
+            BindNonMonobehService<Game>(true);
 
         }
 
-       
+        private void BindItickable()
+        {
+            TickableService tickableService = new TickableService();
+            Container.Bind<ITickable>().To<TickableService>().FromInstance(tickableService);
+            Container.Bind<TickableService>().FromInstance(tickableService);
+        }
+
         private void BindLocInstaller()
         {
             Container.Bind<LocationInstaller>().FromInstance(this).AsSingle();
@@ -91,7 +97,7 @@ namespace Infrastructure
             Container.Bind<Tservice>()
                 .FromInstance(tservice)
                 .AsSingle();
-            if(injectNeeded) Container.QueueForInject(tservice);
+           Container.QueueForInject(tservice);
         }
         private void BindScriptableObject<TscriptableObject>(ScriptableObject scriptableObject) where TscriptableObject : ScriptableObject
         {

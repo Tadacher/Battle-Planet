@@ -1,22 +1,40 @@
-﻿using System;
+﻿using Infrastructure;
+using System;
 using UnityEngine;
 using Zenject;
 
-public class MusicService : MonoBehaviour
+public class MusicService
 {
-    MusicSetup _sfxSetup;
-    AudioSource  _musicSource;
+    MusicSetup _musicSetup;
+    AudioSource _source;
     MusicPlayer _musicPlayer;
-
-    [Inject]
-    private void Construct(MusicSetup sfx)
+    TickDelegate tickDelegate;
+    public MusicService()
     {
-        Debug.LogError("no sources injected");
-        _sfxSetup = sfx;
-        _musicPlayer = new MusicPlayer(_sfxSetup, _musicSource);
     }
-    private void Update()
+    
+    [Inject]
+    public void Init(MusicSetup musicSetup, TickableService service, LocationInstaller locationInstaller)
     {
-        if (_musicPlayer.MusicPlaying()) _musicPlayer.StartNewTrack();
+        Debug.Log("injection");
+        _musicSetup = musicSetup;
+        
+        GameObject protosource = new GameObject("sfxSource");
+        protosource.AddComponent<AudioSource>();
+        protosource.transform.parent = locationInstaller.transform;
+        _source = protosource.GetComponent<AudioSource>();
+
+        _musicPlayer = new MusicPlayer(musicSetup, _source);
+        tickDelegate += Tick;
+        service.tickDelegate += Tick;
+        Debug.Log("injection2");
+
+    }
+
+    public void Tick()
+    {
+        Debug.Log("music tick");
+
+        if (!_musicPlayer.MusicPlaying()) _musicPlayer.StartNewTrack();
     }
 }

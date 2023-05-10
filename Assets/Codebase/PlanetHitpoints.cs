@@ -19,7 +19,6 @@ public class PlanetHitpoints : HitPointComponent
         maxHp = hitpoints;
         originalHp = maxHp;
         maxShield = shield;
-        Debug.Log(uiController);
         uiController.DrawPlanetHp(hitpoints, maxHp);
     }
     private void Update()

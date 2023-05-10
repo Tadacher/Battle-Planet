@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: 1578169933}
   - component: {fileID: 1244875781606758084}
   - component: {fileID: 7230518654632326925}
-  - component: {fileID: 2588929047491429437}
   m_Layer: 6
   m_Name: Ship
   m_TagString: Player
@@ -182,7 +181,7 @@ MonoBehaviour:
   maxSpeedMod: 1
   minSpeedMod: 1
   currentWeapon: 0
-  _shipHpComponent: {fileID: 2588929047491429437}
+  _shipHpComponent: {fileID: 0}
   projectileSpawner: {fileID: 1244875783676898662}
   projectiles:
   - {fileID: 1499712245897717176, guid: 0e43f5537b40df74ba9cabfc32ff48f3, type: 3}
@@ -190,29 +189,6 @@ MonoBehaviour:
   thrustSpeed: 1
   isCrushing: 0
   crushed: 0
---- !u!114 &2588929047491429437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244875781606758080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65a25ca88ba79b445bbc0195826702f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitpoints: 1
-  hpRegen: 1
-  maxHp: 1
-  shield: 1
-  shieldregen: 1
-  maxShield: 1
-  timeToRegen: 1
-  regenInterval: 1
-  particleSystemPrefab: {fileID: 0}
-  sendDamageInfo: 0
-  spawnParticles: 0
 --- !u!1 &1244875783676898657
 GameObject:
   m_ObjectHideFlags: 0

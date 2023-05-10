@@ -1,22 +1,26 @@
-﻿using UnityEngine;
+﻿using Infrastructure;
+using UnityEngine;
 using Zenject;
 
 namespace Codebase.Infrastructure
 {
-    public class PlayerInput : MonoBehaviour
+    public class PlayerInput
     {
         ShipBehaviour _shipBehaviour;
         CoroutineProcessor _coroutineProcessor;
         UiService _uiController;
+        TickDelegate _tickDelegate;
         [Inject]
-        public void Construct(ShipBehaviour shipBehaviour, CoroutineProcessor coroutineProcessor, UiService uiController)
+        public void Construct(ShipBehaviour shipBehaviour, CoroutineProcessor coroutineProcessor, UiService uiController, TickableService tickableService)
         {
             _shipBehaviour = shipBehaviour;
             _coroutineProcessor = coroutineProcessor;
             _uiController = uiController;
+            _tickDelegate += Tick;
+            tickableService.AddToTick(Tick);
         }
 
-        private void Update()
+        private void Tick()
         {
             if (IsMenuCalled()) _uiController.ToggleGameMenu();
 

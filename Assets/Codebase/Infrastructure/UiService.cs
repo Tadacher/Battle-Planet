@@ -70,10 +70,8 @@ public class UiService
 
     public void DrawHP(int hp, int maxhp)
     {
-        Debug.Log("drawn");
        hpText.text = hp.ToString() + " hp";
        shipHpImg.fillAmount = (float)((float)hp / (float)maxhp);
-        Debug.Log((float)hp / (float)maxhp);
     }
 
     public void DrawShield(int shield, int maxshield)
